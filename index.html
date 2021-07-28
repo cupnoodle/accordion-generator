@@ -293,12 +293,14 @@
           this.accordions.splice(index, 1);
         },
         updateAccordionCode(){
+          let startline = "<!-- start yagi accordion -->\n";
+          let endline = "\n<!-- end yagi accordion-->\n";
           let style = "<style>\n" + document.querySelector('style').innerHTML + "</style>\n";
           let fullHTML = document.querySelector('#accordionContainer').innerHTML;
           let startTemplateTagIndex = fullHTML.indexOf('\<template');
           let endTemplateTagIndex = fullHTML.indexOf('\</template') + 11;
 
-          this.accordionCode = style + fullHTML.substr(0, startTemplateTagIndex) + fullHTML.substr(endTemplateTagIndex);
+          this.accordionCode = startline + style + fullHTML.substr(0, startTemplateTagIndex) + fullHTML.substr(endTemplateTagIndex) + endline;
         },
         copyCode() {
           document.getElementById('htmlcode').select();
