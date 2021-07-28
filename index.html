@@ -138,7 +138,7 @@
 </head>
 <body class="bg-gray-50" x-data="accordions()">
   <!-- This example requires Tailwind CSS v2.0+ -->
-  <div x-show="showModal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div x-show="showModal" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="display:none;">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
       <!--
         Background overlay, show/hide based on modal state.
@@ -183,7 +183,7 @@
             <div class="mt-2">
               <textarea id="htmlcode" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:border-1 block w-full sm:text-sm border-gray-300 border px-3 py-2 rounded-md resize-none" style="min-height: 20rem;" role="textbox" x-text="accordionCode" readonly></textarea>
             </div>
-            <a href="https://yagisoftware.com" target="_blank" class="inline-block mt-4 underline text-indigo-400">Click here for usage instructions</a>
+            <a href="https://yagisoftware.com/articles/collapsible-accordion-faq-generator-instruction.html" target="_blank" class="inline-block mt-4 underline text-indigo-400">Click here for usage instructions</a>
           </div>
         </div>
         <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
@@ -201,7 +201,8 @@
     </div>
   </div>
 
-  <h1 class="my-8 text-3xl md:text-5xl md:leading-normal drop-shadow font-bold text-center text-transparent bg-clip-text bg-gradient-to-b from-indigo-300 via-indigo-500 to-blue-300" style="-webkit-background-clip: text;">Accordion generator</h1>
+  <h1 class="mt-8 mb-6 text-3xl md:text-5xl md:leading-normal drop-shadow font-bold text-center text-transparent bg-clip-text bg-gradient-to-b from-indigo-300 via-indigo-500 to-blue-300" style="-webkit-background-clip: text;">Accordion generator</h1>
+  <p class="text-center mb-4 text-gray-400">by <a href="https://yagisoftware.com/about" class="underline hover:text-green-600" target="_blank">Yagi Software</a></p>
 
   <br>
   <button type="button" class="my-10 mx-auto block items-center px-4 py-2 text-lg font-medium rounded-md shadow text-white bg-gradient-to-b from-indigo-300 via-indigo-500 to-blue-500 hover:from-indigo-500 hover:via-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:text-gray-300" @click="updateAccordionCode(); showModal = true">
@@ -210,7 +211,7 @@
   <br>
   <!-- Two column container -->
   <div class="flex flex-col lg:flex-row flex-1 w-full px-4">
-    <div class="w-full border-b-2 mb-4 lg:border-r-2 lg:border-b-0 border-gray-500 border-dashed px-8">
+    <div class="w-full border-b-2 mb-4 lg:border-r-2 lg:border-b-0 border-gray-500 border-dashed px-8" x-init="expandFirstTextArea()">
 
       <template x-for="(accordion, index) in accordions">
       <!-- input container -->
@@ -251,7 +252,8 @@
     </div>
 
     <!-- right column -->
-    <div class="w-full">
+    <div class="w-full relative">
+      <img src="arrow.png" class="mx-auto absolute hidden lg:block" style="left: 12rem;top: -8rem;">
       <p class="text-sm text-gray-400 px-4">Preview</p>
 
       <div id="accordionContainer"><div class="yagi-accordion">
@@ -284,7 +286,7 @@
       return {
         showModal: false,
         accordionCode: '',
-        accordions: [ {title: 'Return policy', content: 'lorem ipsum amet'}, {title: '', content: ''}],
+        accordions: [ {title: 'Return policy', content: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.'}, {title: 'Your FAQ title here', content: 'Your content here'}],
         addAccordion(){
           this.accordions.push({title: "", content: ""});
         },
@@ -306,6 +308,12 @@
             document.execCommand("copy");
           }, 10);
         },
+        expandFirstTextArea() {
+           setTimeout(function(){ 
+            let textarea = document.querySelector('.autoresize-textarea textarea');
+            textarea.parentNode.dataset.replicatedValue = textarea.value;
+          }, 50);
+        }
       }
     }
   </script>
